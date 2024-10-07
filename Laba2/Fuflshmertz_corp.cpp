@@ -1,54 +1,52 @@
 #include <iostream>
 #include <string>
-#include <limits> // Для использования numeric_limits
+#include <limits>
 using namespace std;
 
-// Базовый класс Publication
 class Publication {
 protected:
-    string title; // Название книги или аудиозаписи
-    float price;  // Цена
+    string title; 
+    float price;  
 public:
-    // Метод ввода данных
     void getdata() {
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищаем буфер перед вводом строки
-        cout << "Enter title: ";
-        getline(cin, title); // Читаем строку для названия
-
-        // Ввод и проверка цены
         while (true) {
             cout << "Enter price: ";
             cin >> price;
             if (cin.fail()) {
-                cin.clear(); // Сбрасываем флаг ошибки
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищаем буфер ввода
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Please enter a numeric value for price." << endl;
             } else {
                 break;
             }
         }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+
+        cout << "Enter title: ";
+        getline(cin, title);
     }
 
-    // Метод вывода данных
+
     void putdata() const {
         cout << "Title: " << title << endl;
         cout << "Price: $" << price << endl;
     }
 };
 
-// Класс Book, наследующийся от Publication
+
 class Book : public Publication {
 private:
-    int pageCount; // Количество страниц
+    int pageCount; 
 public:
-    // Метод ввода данных
-    void getBookData() {
-        // Ввод и проверка количества страниц
+    
+    void getdata() {
+        Publication::getdata(); 
+
         while (true) {
             cout << "Enter page count: ";
             cin >> pageCount;
             if (cin.fail()) {
-                cin.clear(); // Сбрасываем флаг ошибки
+                cin.clear(); 
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищаем буфер ввода
                 cout << "Invalid input. Please enter a numeric value for page count." << endl;
             } else {
@@ -57,26 +55,27 @@ public:
         }
     }
 
-    // Метод вывода данных
-    void putBookData() const {
-        putdata(); // Вывод общих данных из Publication
+
+    void putdata() const {
+        Publication::putdata(); 
         cout << "Page count: " << pageCount << " pages" << endl;
     }
 };
 
-// Класс Type, наследующийся от Publication
+
 class Type : public Publication {
 private:
-    float playTime; // Время записи в минутах
+    float playTime;
 public:
-    // Метод ввода данных
-    void getTypeData() {
-        // Ввод и проверка времени записи
+
+    void getdata() {
+        Publication::getdata(); 
+
         while (true) {
             cout << "Enter play time (in minutes): ";
             cin >> playTime;
             if (cin.fail()) {
-                cin.clear(); // Сбрасываем флаг ошибки
+                cin.clear(); 
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищаем буфер ввода
                 cout << "Invalid input. Please enter a numeric value for play time." << endl;
             } else {
@@ -85,36 +84,33 @@ public:
         }
     }
 
-    // Метод вывода данных
-    void putTypeData() const {
-        putdata(); // Вывод общих данных из Publication
+
+    void putdata() const {
+        Publication::putdata(); 
         cout << "Play time: " << playTime << " minutes" << endl;
     }
 };
 
 int main() {
-    // Создаем объекты Book и Type
+   
     Book myBook;
     Type myType;
 
-    // Вводим общие данные о публикации один раз
-    cout << "Enter common data for publication (title and price):" << endl;
-    myBook.getdata(); // Ввод общих данных (title и price) один раз
+    
+    cout << "\nEnter data for book publication:" << endl;
+    myBook.getdata();
 
-    // Вводим специфичные данные для книги и аудиозаписи
-    cout << "\nEnter specific data for book:" << endl;
-    myBook.getBookData(); // Ввод данных для Book
+   
+    cout << "\nEnter data for type publication:" << endl;
+    myType.getdata();
 
-    cout << "\nEnter specific data for type (audiobook):" << endl;
-    myType.getTypeData(); // Ввод данных для Type
-
-    // Выводим данные для книги
+   
     cout << "\nData for book:" << endl;
-    myBook.putBookData();
+    myBook.putdata();
 
-    // Выводим данные для аудиозаписи
+    
     cout << "\nData for type:" << endl;
-    myType.putTypeData();
+    myType.putdata();
 
     return 0;
 }
